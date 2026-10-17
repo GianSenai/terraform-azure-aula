@@ -26,7 +26,7 @@ variable "admin_ssh_public_key" {
 # ============================================================
 
 resource "azurerm_resource_group" "lab" {
-  name     = "gt-terraform-aula"
+  name     = "sukumba-terraform-aula"
   location = "southafricanorth"
 }
 
