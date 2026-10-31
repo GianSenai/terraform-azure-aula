@@ -45,7 +45,10 @@ import {
   to = azurerm_subnet.default
   id = "/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/virtualNetworks/terraform-vnet/subnets/default"
 }
-
+import {
+  to = azurerm_network_interface.vm
+  id = "/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/networkInterfaces/terraform-nic"
+}
 # ============================================================
 # RESOURCE GROUP EXISTENTE
 # ============================================================
