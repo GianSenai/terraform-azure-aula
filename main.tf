@@ -49,6 +49,10 @@ import {
   to = azurerm_network_interface.vm
   id = "/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/networkInterfaces/terraform-nic"
 }
+import {
+  to = azurerm_network_interface_security_group_association.vm
+  id = "/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/networkInterfaces/terraform-nic|/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/networkSecurityGroups/terraform-nsg"
+}
 # ============================================================
 # RESOURCE GROUP EXISTENTE
 # ============================================================
@@ -151,7 +155,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   name                = "terraform-linux-vm"
   resource_group_name = data.azurerm_resource_group.lab.name
   location            = data.azurerm_resource_group.lab.location
-  size                = "Standard_B2ats_v2"
+  size                = "Standard_B2s"
 
   admin_username                  = "azureuser"
   disable_password_authentication = true
