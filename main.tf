@@ -21,7 +21,6 @@ variable "admin_ssh_public_key" {
   sensitive   = true
 }
 
-
 # ============================================================
 # IMPORTAR RECURSOS QUE JA EXISTEM NO AZURE
 # ============================================================
@@ -45,14 +44,17 @@ import {
   to = azurerm_subnet.default
   id = "/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/virtualNetworks/terraform-vnet/subnets/default"
 }
+
 import {
   to = azurerm_network_interface.vm
   id = "/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/networkInterfaces/terraform-nic"
 }
+
 import {
   to = azurerm_network_interface_security_group_association.vm
   id = "/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/networkInterfaces/terraform-nic|/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/networkSecurityGroups/terraform-nsg"
 }
+
 # ============================================================
 # RESOURCE GROUP EXISTENTE
 # ============================================================
@@ -67,7 +69,7 @@ data "azurerm_resource_group" "lab" {
 
 resource "azurerm_virtual_network" "lab" {
   name                = "terraform-vnet"
-  location            = data.azurerm_resource_group.lab.location
+  location            = "spaincentral"
   resource_group_name = data.azurerm_resource_group.lab.name
   address_space       = ["10.10.0.0/16"]
 }
@@ -85,7 +87,7 @@ resource "azurerm_subnet" "default" {
 
 resource "azurerm_network_security_group" "vm" {
   name                = "terraform-nsg"
-  location            = data.azurerm_resource_group.lab.location
+  location            = "spaincentral"
   resource_group_name = data.azurerm_resource_group.lab.name
 
   security_rule {
@@ -119,7 +121,7 @@ resource "azurerm_network_security_group" "vm" {
 
 resource "azurerm_public_ip" "vm" {
   name                = "terraform-ip"
-  location            = data.azurerm_resource_group.lab.location
+  location            = "spaincentral"
   resource_group_name = data.azurerm_resource_group.lab.name
   allocation_method   = "Static"
   sku                 = "Standard"
@@ -131,7 +133,7 @@ resource "azurerm_public_ip" "vm" {
 
 resource "azurerm_network_interface" "vm" {
   name                = "terraform-nic"
-  location            = data.azurerm_resource_group.lab.location
+  location            = "spaincentral"
   resource_group_name = data.azurerm_resource_group.lab.name
 
   ip_configuration {
@@ -154,7 +156,7 @@ resource "azurerm_network_interface_security_group_association" "vm" {
 resource "azurerm_linux_virtual_machine" "vm" {
   name                = "terraform-linux-vm"
   resource_group_name = data.azurerm_resource_group.lab.name
-  location            = data.azurerm_resource_group.lab.location
+  location            = "spaincentral"
   size                = "Standard_B2s"
 
   admin_username                  = "azureuser"
