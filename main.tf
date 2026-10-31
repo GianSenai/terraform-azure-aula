@@ -25,31 +25,6 @@ variable "admin_ssh_public_key" {
 # IMPORTAR RECURSOS QUE JA EXISTEM NO AZURE
 # ============================================================
 
-import {
-  to = azurerm_virtual_network.lab
-  id = "/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/virtualNetworks/terraform-vnet"
-}
-
-import {
-  to = azurerm_network_security_group.vm
-  id = "/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/networkSecurityGroups/terraform-nsg"
-}
-
-import {
-  to = azurerm_public_ip.vm
-  id = "/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/publicIPAddresses/terraform-ip"
-}
-
-import {
-  to = azurerm_subnet.default
-  id = "/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/virtualNetworks/terraform-vnet/subnets/default"
-}
-
-
-import {
-  to = azurerm_network_interface_security_group_association.vm
-  id = "/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/networkInterfaces/terraform-nic|/subscriptions/a2e35d9e-8f47-45d5-93b7-a24224dadb6d/resourceGroups/sukumba-terraform-aula/providers/Microsoft.Network/networkSecurityGroups/terraform-nsg"
-}
 
 # ============================================================
 # RESOURCE GROUP EXISTENTE
