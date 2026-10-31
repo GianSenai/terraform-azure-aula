@@ -22,12 +22,11 @@ variable "admin_ssh_public_key" {
 }
 
 # ============================================================
-# RESOURCE GROUP
+# RESOURCE GROUP EXISTENTE
 # ============================================================
 
-resource "azurerm_resource_group" "lab" {
-  name     = "sukumba-terraform-aula"
-  location = "southafricanorth"
+data "azurerm_resource_group" "lab" {
+  name = "sukumba-terraform-aula"
 }
 
 # ============================================================
@@ -36,14 +35,14 @@ resource "azurerm_resource_group" "lab" {
 
 resource "azurerm_virtual_network" "lab" {
   name                = "terraform-vnet"
-  location            = azurerm_resource_group.lab.location
-  resource_group_name = azurerm_resource_group.lab.name
+  location            = data.azurerm_resource_group.lab.location
+  resource_group_name = data.azurerm_resource_group.lab.name
   address_space       = ["10.10.0.0/16"]
 }
 
 resource "azurerm_subnet" "default" {
   name                 = "default"
-  resource_group_name  = azurerm_resource_group.lab.name
+  resource_group_name  = data.azurerm_resource_group.lab.name
   virtual_network_name = azurerm_virtual_network.lab.name
   address_prefixes     = ["10.10.1.0/24"]
 }
@@ -54,8 +53,8 @@ resource "azurerm_subnet" "default" {
 
 resource "azurerm_network_security_group" "vm" {
   name                = "terraform-nsg"
-  location            = azurerm_resource_group.lab.location
-  resource_group_name = azurerm_resource_group.lab.name
+  location            = data.azurerm_resource_group.lab.location
+  resource_group_name = data.azurerm_resource_group.lab.name
 
   security_rule {
     name                       = "HTTP"
@@ -68,7 +67,7 @@ resource "azurerm_network_security_group" "vm" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
-   
+
   security_rule {
     name                       = "SSH"
     priority                   = 1100
@@ -88,8 +87,8 @@ resource "azurerm_network_security_group" "vm" {
 
 resource "azurerm_public_ip" "vm" {
   name                = "terraform-ip"
-  location            = azurerm_resource_group.lab.location
-  resource_group_name = azurerm_resource_group.lab.name
+  location            = data.azurerm_resource_group.lab.location
+  resource_group_name = data.azurerm_resource_group.lab.name
   allocation_method   = "Static"
   sku                 = "Standard"
 }
@@ -100,8 +99,8 @@ resource "azurerm_public_ip" "vm" {
 
 resource "azurerm_network_interface" "vm" {
   name                = "terraform-nic"
-  location            = azurerm_resource_group.lab.location
-  resource_group_name = azurerm_resource_group.lab.name
+  location            = data.azurerm_resource_group.lab.location
+  resource_group_name = data.azurerm_resource_group.lab.name
 
   ip_configuration {
     name                          = "internal"
@@ -122,8 +121,8 @@ resource "azurerm_network_interface_security_group_association" "vm" {
 
 resource "azurerm_linux_virtual_machine" "vm" {
   name                = "terraform-linux-vm"
-  resource_group_name = azurerm_resource_group.lab.name
-  location            = azurerm_resource_group.lab.location
+  resource_group_name = data.azurerm_resource_group.lab.name
+  location            = data.azurerm_resource_group.lab.location
   size                = "Standard_B2ats_v2"
 
   admin_username                  = "azureuser"
@@ -163,11 +162,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
 }
 
 # ============================================================
-# INFORMACOES DA INFRAESTRUTURA CRIADA
+# INFORMACOES DA INFRAESTRUTURA
 # ============================================================
 
 output "resource_group" {
-  value = azurerm_resource_group.lab.name
+  value = data.azurerm_resource_group.lab.name
 }
 
 output "nome_vm" {
